@@ -1,30 +1,40 @@
 class Deck {
 
-    cardsNum : number[];
-    cardsStr : string[] | number[];
+    private _cardsNum : number[];
+    private _cardsStr : string[];
 
     constructor() {
-        this.cardsNum = [];
-        this.cardsStr = [];
-        this._resetar();
+        this._cardsNum = [];
+        this._cardsStr = [];
+        this.reset();
     }
 
-    private _resetar() {
+    public reset() {
 
-            this.cardsNum = [];
+            this._cardsNum = [];
             for (let i = 1; i < 53; i++) {
-              this.cardsNum.push(i);
+              this._cardsNum.push(i);
             }
 
-            this._shuffle(this.cardsNum);
-            let cards = [...this.cardsNum];
-            this.cardsStr = this._traduzir(cards);
-            console.log(cards);
+            this._shuffle(this._cardsNum);
+            this._cardsStr = this._traduzir(this._cardsNum);
+            ///console.table(this._cardsStr);
+            ///console.table(this._cardsNum);
         
     }
 
-    _traduzir(cardsNum : number[] | string[]) {
-        const cartasStr = [
+    
+    public get getCardsNum() : number[] {
+      return this._cardsNum;
+    }
+
+    public get getCardsStr() : string[] {
+      return this._cardsStr;
+    }
+    
+
+    private _traduzir(cardsNum : number[]) : string[] {
+        const defaultDeck = [
           "null",
           "♥️AS DE COPAS♥️",
           "♥️2 DE COPAS♥️",
@@ -79,15 +89,17 @@ class Deck {
           "♦Q DE OUROS♦",
           "♦K DE OUROS♦",
         ];
-        //for (let i = 0; i < 52; i++) {
-        //  cardsNum[i] = cartasStr[cardsNum[i]];
-        //}
-        
-        cardsNum.map(value => cartasStr[cardsNum[value]])
-        return cardsNum;
+
+        let cardsAux = [];
+
+        for (let i = 0; i < 52; i++) {
+        cardsAux.push(defaultDeck[cardsNum[i]]);
+        }
+      
+        return cardsAux;
       }
 
-      private _shuffle(arr) {
+      private _shuffle(arr : number[]) {
 
         for (let i = arr.length - 1; i > 0; i--) {
 
